@@ -496,8 +496,10 @@ else
 		msg := $(warning newt not found, disables TUI support. Please install newt-devel or libnewt-dev);
 		BASIC_CFLAGS += -DNO_NEWT_SUPPORT
 	else
-		# Fedora has /usr/include/slang/slang.h, but ubuntu /usr/include/slang.h
-		BASIC_CFLAGS += -I/usr/include/slang
+		# Some releases like Fedora has /usr/include/slang/slang.h other than /usr/include/slang.h
+		SLANG_INC ?= -idirafter =/usr/include/slang
+		BASIC_CFLAGS += $(SLANG_INC)
+
 		EXTLIBS += -lnewt -lslang
 		LIB_OBJS += $(OUTPUT)ui/setup.o
 		LIB_OBJS += $(OUTPUT)ui/browser.o
